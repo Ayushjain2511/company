@@ -1,30 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trainer Dashboard | ActiveJeevan</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXhW+ALEwIH" crossorigin="anonymous">
+    <title>Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXhW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
-    <!-- Chart.js Script -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-
     <style>
+        /* Add your CSS styles here */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: 'Arial', sans-serif;
         }
-
         body {
             background-color: #a4d6db;
             overflow-x: hidden;
         }
-
         header {
             position: fixed;
             top: 0;
@@ -38,15 +32,12 @@
             justify-content: space-between;
             align-items: center;
         }
-
         .left_side h3 {
             color: #fff;
             margin: 0;
             font-size: 22px;
             font-weight: 900;
         }
-
-        /* Sidebar */
         .side-nav {
             background-color: #1a364e;
             padding-top: 30px;
@@ -58,7 +49,6 @@
             z-index: 999;
             overflow-y: auto;
         }
-
         .side-nav a {
             color: #fff;
             display: block;
@@ -68,85 +58,51 @@
             box-sizing: border-box;
             transition: 0.5s;
         }
-
         .side-nav a:hover {
             background: #cb808b;
             color: black;
         }
-
         .side-nav i {
             padding-right: 10px;
         }
-
-        label #side-nav_btn {
-            z-index: 1;
-            color: #fff;
-            position: fixed;
-            cursor: pointer;
-            left: 300px;
-            font-size: 20px;
-            margin: 5px 0;
-            transition: color 0.3s;
-        }
-
-        label #side-nav_btn:hover {
-            color: #cb808b;
-        }
-
         .content {
             margin-left: 270px;
             padding: 70px 20px;
         }
-
         section {
             margin-bottom: 40px;
         }
-
         .dashboard {
             padding: 20px;
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
         }
-
-        h1,
-        h2 {
+        h1, h2 {
             margin-bottom: 20px;
         }
-
         .section-title {
             margin-bottom: 20px;
         }
-
-        .trainer-info,
-        .team-progress {
+        .trainer-info, .team-progress {
             display: flex;
             justify-content: space-between;
             margin-bottom: 20px;
         }
-
-        .trainer-info div,
-        .team-progress div,
-        .task-assignment,
-        .attendance {
+        .trainer-info div, .team-progress div, .task-assignment, .attendance {
             width: 48%;
             padding: 15px;
             background-color: #f0f0f0;
             border-radius: 8px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
         }
-
-        input,
-        select,
-        textarea,
-        button {
+        input, select, textarea, button {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
             border-radius: 5px;
             border: 1px solid #64b0a3;
         }
-
         button {
             background-color: #64b0a3;
             color: white;
@@ -154,15 +110,23 @@
             cursor: pointer;
             transition: background 0.3s ease;
         }
-
         button:hover {
             background-color: #5fa292;
         }
+        .delete-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
     </style>
 </head>
-
 <body>
-
     <!-- Header -->
     <header>
         <div class="left_side">
@@ -197,43 +161,17 @@
         </section>
 
         <section id="teams" class="dashboard">
-            <h2 class="section-title">Teams Working Under Trainer</h2>
-            <div class="team-progress">
-                <div>
-                    <h3>Team Alpha</h3>
-                    <p>Team Leader: Alice</p>
-                    <p>Progress: 75%</p>
-                </div>
-                <div>
-                    <h3>Team Beta</h3>
-                    <p>Team Leader: Bob</p>
-                    <p>Progress: 50%</p>
-                </div>
-            </div>
-
-            <!-- Add the Chart canvas here -->
+            <h2 class="section-title">Teams Working Under Admin</h2>
+            <div class="team-progress" id="teamProgress"></div>
             <div class="dashboard">
                 <h3>Team Progress Overview</h3>
                 <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
-            </div>
-
-            <div class="team-progress">
-                <div>
-                    <h3>Team Gamma</h3>
-                    <p>Team Leader: Charlie</p>
-                    <p>Progress: 90%</p>
-                </div>
-                <div>
-                    <h3>Team Delta</h3>
-                    <p>Team Leader: David</p>
-                    <p>Progress: 65%</p>
-                </div>
             </div>
         </section>
 
         <section id="tasks" class="dashboard">
             <h2 class="section-title">Assign Task to Teams</h2>
-            <form action="" method="post">
+            <form id="taskForm">
                 <label for="teamSelect">Select Team:</label>
                 <select id="teamSelect" name="team" required>
                     <option value="alpha">Team Alpha</option>
@@ -241,59 +179,126 @@
                     <option value="gamma">Team Gamma</option>
                     <option value="delta">Team Delta</option>
                 </select>
-
                 <label for="taskDetails">Task Details:</label>
                 <textarea id="taskDetails" name="taskDetails" rows="5" placeholder="Enter task details here" required></textarea>
-
                 <button type="submit">Assign Task</button>
             </form>
+            <div id="taskList"></div>
         </section>
 
         <section id="attendance" class="dashboard">
             <h2 class="section-title">Attendance</h2>
-            <div class="attendance">
+            <form id="attendanceForm">
                 <label for="date">Select Date:</label>
-                <input type="date" id="date" name="date">
-
+                <input type="date" id="date" name="date" required>
                 <label for="status">Select Status:</label>
                 <select id="status" name="status" required>
                     <option value="present">Present</option>
                     <option value="absent">Absent</option>
                 </select>
-
                 <button type="submit">Mark Attendance</button>
-            </div>
+            </form>
+            <div id="attendanceList"></div>
         </section>
     </div>
 
-    <!-- Chart.js Script for Doughnut Chart -->
+    <!-- JavaScript for Local Storage -->
     <script>
-         function logout() {
-        // Redirect to login page
-        window.location.href = "index.html";
-    }
-        var xValues = ["Team Alpha", "Team Beta", "Team Gamma", "Team Delta"];
-        var yValues = [75, 50, 90, 65]; // Team progress percentages
-        var barColors = ["#b91d47", "#00aba9", "#2b5797", "#e8c3b9"];
-
-        new Chart("myChart", {
-            type: "doughnut",
-            data: {
-                labels: xValues,
-                datasets: [{
-                    backgroundColor: barColors,
-                    data: yValues
-                }]
-            },
-            options: {
-                title: {
-                    display: true,
-                    text: "Teams Progress Overview"
-                }
-            }
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTasks();
+            loadAttendance();
+            loadChart();
         });
+
+        // Function to handle task assignment
+        document.getElementById('taskForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const team = document.getElementById('teamSelect').value;
+            const taskDetails = document.getElementById('taskDetails').value;
+            const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            tasks.push({ team, taskDetails });
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+            loadTasks();
+        });
+
+        // Function to load tasks
+        function loadTasks() {
+            const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            const taskList = document.getElementById('taskList');
+            taskList.innerHTML = tasks.map((task, index) => `
+                <div>
+                    <p><strong>Team:</strong> ${task.team}</p>
+                    <p><strong>Task:</strong> ${task.taskDetails}</p>
+                    <button class="delete-btn" onclick="deleteTask(${index})">Delete</button>
+                </div>
+            `).join('');
+        }
+
+        // Function to delete a task
+        function deleteTask(index) {
+            const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            tasks.splice(index, 1);
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+            loadTasks();
+        }
+
+        // Function to handle attendance marking
+        document.getElementById('attendanceForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const date = document.getElementById('date').value;
+            const status = document.getElementById('status').value;
+            const attendance = JSON.parse(localStorage.getItem('attendance')) || [];
+            attendance.push({ date, status });
+            localStorage.setItem('attendance', JSON.stringify(attendance));
+            loadAttendance();
+        });
+
+        // Function to load attendance
+        function loadAttendance() {
+            const attendance = JSON.parse(localStorage.getItem('attendance')) || [];
+            const attendanceList = document.getElementById('attendanceList');
+            attendanceList.innerHTML = attendance.map((entry, index) => `
+                <div>
+                    <p><strong>Date:</strong> ${entry.date}</p>
+                    <p><strong>Status:</strong> ${entry.status}</p>
+                    <button class="delete-btn" onclick="deleteAttendance(${index})">Delete</button>
+                </div>
+            `).join('');
+        }
+
+        // Function to delete an attendance entry
+        function deleteAttendance(index) {
+            const attendance = JSON.parse(localStorage.getItem('attendance')) || [];
+            attendance.splice(index, 1);
+            localStorage.setItem('attendance', JSON.stringify(attendance));
+            loadAttendance();
+        }
+
+        // Function to load the Chart
+        function loadChart() {
+            const ctx = document.getElementById('myChart').getContext('2d');
+            const chart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ["Team Alpha", "Team Beta", "Team Gamma", "Team Delta"],
+                    datasets: [{
+                        backgroundColor: ["#b91d47", "#00aba9", "#2b5797", "#e8c3b9"],
+                        data: [75, 50, 90, 65] // Replace with actual data
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: 'Teams Progress Overview'
+                    }
+                }
+            });
+        }
+
+        // Function to handle logout
+        function logout() {
+            window.location.href = 'index.html';
+        }
     </script>
-
 </body>
-
 </html>
